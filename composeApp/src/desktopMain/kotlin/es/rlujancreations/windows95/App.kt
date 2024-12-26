@@ -23,7 +23,7 @@ import windows95.composeapp.generated.resources.compose_multiplatform
 @Preview
 fun App() {
     MaterialTheme {
-        var initializing by remember { mutableStateOf(true) }
+        var initializing by remember { mutableStateOf(false) }
 
         Box(modifier = Modifier.fillMaxSize()) {
             if (initializing) {
