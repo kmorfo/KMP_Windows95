@@ -9,3 +9,5 @@ This is a Kotlin Multiplatform project targeting Desktop.
 
 
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+
+[Replicando WINDOWS 95 con Kotlin Multiplatform Escritorio - Curso Avanzado de KMP desktop.](https://www.youtube.com/watch?v=QFPTUwFW9p8)
