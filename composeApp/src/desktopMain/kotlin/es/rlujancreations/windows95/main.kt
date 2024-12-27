@@ -11,7 +11,8 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "Windows95",
         resizable = false,
-        state = state
+        state = state,
+//        undecorated = true
     ) {
         App()
     }
