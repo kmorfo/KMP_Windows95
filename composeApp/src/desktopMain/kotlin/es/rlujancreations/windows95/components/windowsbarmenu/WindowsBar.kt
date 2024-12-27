@@ -32,7 +32,7 @@ import windows95.composeapp.generated.resources.winlogo
  */
 @Composable
 fun WindowsBar(
-
+    onWindowsButtonSelected: () -> Unit
 ) {
     Column {
         Box(Modifier.height(1.dp).fillMaxWidth().background(Color.White))
@@ -42,7 +42,7 @@ fun WindowsBar(
         ) {
             Spacer(Modifier.width(6.dp))
             WindowsButton(Modifier.height(34.dp).width(95.dp),
-                onClick = { }) {
+                onClick = { onWindowsButtonSelected() }) {
                 Row(
                     modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
                     horizontalArrangement = Arrangement.Center,
@@ -59,7 +59,8 @@ fun WindowsBar(
                         "Start",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.padding(bottom = 4.dp)
+                        modifier = Modifier.padding(bottom = 4.dp),
+                        color = Color.Black
                     )
                 }
             }
