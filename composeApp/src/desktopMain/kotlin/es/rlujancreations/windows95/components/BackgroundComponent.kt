@@ -16,11 +16,11 @@ import es.rlujancreations.windows95.ui.backgroundComponent
 fun BackgroundComponent(
     modifier: Modifier = Modifier,
     selected: Boolean = false,
+    strokeWidth: Float = 1.5f,
+    spacing: Float = 1.5f,
     content: @Composable () -> Unit
 ) {
     Box(modifier.background(backgroundComponent).drawBehind {
-        val strokeWidth = 1.5f
-        val spacing = 1.5f
         val width = size.width
         val height = size.height
 

@@ -12,6 +12,6 @@ Learn more
 about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
 
 [Replicando WINDOWS 95 con Kotlin Multiplatform Escritorio - Curso Avanzado de KMP desktop.](https://www.youtube.com/watch?v=QFPTUwFW9p8)
-min:02:51:00
+min:04:14:00
 [Example Windows 95 Minesweeper](https://minesweepergame.com/download/windows-95-minesweeper.php)
 [Windows 95 onLine](https://www.pcjs.org/software/pcx86/sys/windows/win95/4.00.950/)
