@@ -19,6 +19,7 @@ import es.rlujancreations.windows95.components.windowsbarmenu.WindowsBar
 import es.rlujancreations.windows95.components.windowsbarmenu.WindowsBarMenuScreen
 import es.rlujancreations.windows95.extensions.clickableWithoutRipple
 import es.rlujancreations.windows95.extensions.onRightClick
+import es.rlujancreations.windows95.helper.DefaultFoldersProvider
 import es.rlujancreations.windows95.model.FolderModel
 import es.rlujancreations.windows95.model.FolderSortType
 import es.rlujancreations.windows95.model.WindowModel
@@ -29,9 +30,7 @@ import es.rlujancreations.windows95.model.WindowModel
 @Composable
 fun Desktop() {
     var showWindowsMenu by remember { mutableStateOf(false) }
-    val fakeFolder = FolderModel(0, "RLujanCreations", position = Offset(0f, 0f))
-    val fakeFolder2 = FolderModel(1, "Aris", position = Offset(0f, 80f))
-    var folders by remember { mutableStateOf(listOf<FolderModel>(fakeFolder, fakeFolder2)) }
+    var folders by remember { mutableStateOf(DefaultFoldersProvider.default) }
     var windows by remember { mutableStateOf(listOf<WindowModel>()) }
 
     var showRightClickMenu by remember { mutableStateOf(false) }
@@ -153,7 +152,10 @@ fun Desktop() {
         WindowsBar(
             windows = windows, onClickMinimizedWindow = { window ->
                 windows = windows.map {
-                    if (window.id == it.id) it.copy(minimized = !it.minimized) else it
+                    if (window.id == it.id) it.copy(
+                        minimized = !it.minimized,
+                        selected = true
+                    ) else it.copy(selected = false)
                 }
             }) { showWindowsMenu = !showWindowsMenu }
     }

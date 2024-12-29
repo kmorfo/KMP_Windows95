@@ -15,14 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import es.rlujancreations.windows95.components.BackgroundComponent
 import es.rlujancreations.windows95.extensions.patternBackground
 import es.rlujancreations.windows95.model.WindowModel
 import org.jetbrains.compose.resources.painterResource
-import windows95.composeapp.generated.resources.Res
-import windows95.composeapp.generated.resources.ic_folder_open
 
 /**
  * Created by Raúl L.C. on 28/12/24.
@@ -36,12 +35,17 @@ fun WindowMinimizedItem(windowModel: WindowModel, onClick: () -> Unit) {
                 Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
                     Spacer(Modifier.width(6.dp))
                     Image(
-                        painter = painterResource(Res.drawable.ic_folder_open),
+                        painter = painterResource(windowModel.icon),
                         contentDescription = null,
                         modifier = Modifier.size(19.dp)
                     )
                     Spacer(Modifier.width(6.dp))
-                    Text(windowModel.title, style = TextStyle(lineHeight = 0.sp))
+                    Text(
+                        windowModel.title,
+                        style = TextStyle(lineHeight = 0.sp),
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
                 }
             }
         } else {
@@ -52,12 +56,17 @@ fun WindowMinimizedItem(windowModel: WindowModel, onClick: () -> Unit) {
                 ) {
                     Spacer(Modifier.width(6.dp))
                     Image(
-                        painter = painterResource(Res.drawable.ic_folder_open),
+                        painter = painterResource(windowModel.icon),
                         contentDescription = null,
                         modifier = Modifier.size(19.dp)
                     )
                     Spacer(Modifier.width(6.dp))
-                    Text(windowModel.title, style = TextStyle(lineHeight = 0.sp))
+                    Text(
+                        windowModel.title,
+                        style = TextStyle(lineHeight = 0.sp),
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
                 }
             }
         }

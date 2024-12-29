@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Icon
@@ -40,8 +39,6 @@ import androidx.compose.ui.unit.sp
 import es.rlujancreations.windows95.model.FolderModel
 import es.rlujancreations.windows95.ui.windowsBlue
 import org.jetbrains.compose.resources.painterResource
-import windows95.composeapp.generated.resources.Res
-import windows95.composeapp.generated.resources.ic_folder
 
 /**
  * Created by Raúl L.C. on 27/12/24.
@@ -67,7 +64,8 @@ fun DraggableFolder(
     }
 
     Box(
-        modifier = Modifier.offset(folderModel.position.x.dp, folderModel.position.y.dp).size(75.dp)
+        modifier = Modifier.offset(folderModel.position.x.dp, folderModel.position.y.dp)
+            .width(83.dp)
             .pointerInput(Unit) {
                 detectTransformGestures { _, pan, _, _ ->
                     offset = offset.copy(x = offset.x + pan.x, y = offset.y + pan.y)
@@ -98,13 +96,13 @@ fun DraggableFolder(
             Box(modifier = Modifier.width(50.dp).height(intrinsicSize = IntrinsicSize.Min)) {
                 Image(
                     modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(Res.drawable.ic_folder),
+                    painter = painterResource(folderModel.icon),
                     contentDescription = "folder"
                 )
                 if (folderModel.selected) {
                     Icon(
                         modifier = Modifier.fillMaxSize(),
-                        painter = painterResource(Res.drawable.ic_folder),
+                        painter = painterResource(folderModel.icon),
                         contentDescription = "folder",
                         tint = windowsBlue.copy(alpha = 0.4f)
                     )
