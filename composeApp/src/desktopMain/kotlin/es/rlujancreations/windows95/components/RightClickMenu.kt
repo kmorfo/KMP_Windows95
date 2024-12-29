@@ -20,6 +20,9 @@ import androidx.compose.ui.window.Popup
 import es.rlujancreations.windows95.components.rightmenu.MenuDivider
 import es.rlujancreations.windows95.components.rightmenu.MenuItem
 import es.rlujancreations.windows95.components.rightmenu.SubMenu
+import es.rlujancreations.windows95.model.FolderSortType
+import es.rlujancreations.windows95.model.FolderSortType.ByDate
+import es.rlujancreations.windows95.model.FolderSortType.ByName
 import es.rlujancreations.windows95.model.SubMenuItem
 
 /**
@@ -31,6 +34,7 @@ fun RightClickMenu(
     position: IntOffset,
     onDismissRequest: () -> Unit,
     createNewFolder: (IntOffset) -> Unit,
+    sortFolders: (FolderSortType) -> Unit
 ) {
     var subMenuPosition: IntOffset? by remember { mutableStateOf(null) }
     var subMenuItems: List<SubMenuItem> by remember { mutableStateOf(emptyList()) }
@@ -51,10 +55,10 @@ fun RightClickMenu(
                         showSubMenu = true,
                         hovered = {
                             subMenuItems = listOf(
-                                SubMenuItem("By name", onClick = { }),
+                                SubMenuItem("By name", onClick = { sortFolders(ByName) }),
                                 SubMenuItem("By size", onClick = {}, enabled = false),
                                 SubMenuItem("By type", onClick = {}, enabled = false),
-                                SubMenuItem("By date", onClick = { })
+                                SubMenuItem("By date", onClick = { sortFolders(ByDate) })
                             )
                             subMenuPosition = IntOffset(position.x + 170, position.y)
                         })

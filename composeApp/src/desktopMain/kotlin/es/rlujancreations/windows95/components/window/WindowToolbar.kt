@@ -23,6 +23,8 @@ import es.rlujancreations.windows95.ui.backgroundComponent
 import es.rlujancreations.windows95.ui.disabledTextColor
 import es.rlujancreations.windows95.ui.windowsBarTextBackground
 import es.rlujancreations.windows95.ui.windowsBlue
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.Resource
 import org.jetbrains.compose.resources.painterResource
 import windows95.composeapp.generated.resources.Res
 import windows95.composeapp.generated.resources.ic_close
@@ -37,6 +39,7 @@ import windows95.composeapp.generated.resources.ic_minimize
 fun WindowToolbar(
     modifier: Modifier,
     title: String,
+    icon: DrawableResource,
     selected: Boolean,
     onMinimize: (() -> Unit)? = null,
     onExpand: (() -> Unit)? = null,
@@ -51,7 +54,7 @@ fun WindowToolbar(
     ) {
         Spacer(Modifier.width(1.dp))
         Image(
-            painter = painterResource(Res.drawable.ic_folder_open),
+            painter = painterResource(icon),
             contentDescription = null,
             modifier = Modifier.size(19.dp)
         )

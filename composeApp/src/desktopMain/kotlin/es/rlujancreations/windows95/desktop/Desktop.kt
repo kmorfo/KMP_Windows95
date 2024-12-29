@@ -20,6 +20,7 @@ import es.rlujancreations.windows95.components.windowsbarmenu.WindowsBarMenuScre
 import es.rlujancreations.windows95.extensions.clickableWithoutRipple
 import es.rlujancreations.windows95.extensions.onRightClick
 import es.rlujancreations.windows95.model.FolderModel
+import es.rlujancreations.windows95.model.FolderSortType
 import es.rlujancreations.windows95.model.WindowModel
 
 /**
@@ -79,6 +80,7 @@ fun Desktop() {
                             val newWindow = WindowModel(
                                 id = selectedFolder.id,
                                 title = selectedFolder.name,
+                                icon = selectedFolder.icon,
                                 selected = true,
                                 position = Offset(100f + extraPosition, 100f + extraPosition)
                             )
@@ -138,7 +140,15 @@ fun Desktop() {
                     folders = folders + newFolder
                     showRightClickMenu = false
                 },
-            )
+                sortFolders = { sortType ->
+                    showRightClickMenu = false
+                    folders = when (sortType) {
+                        FolderSortType.ByName -> folders.sortedBy { it.name }
+                        FolderSortType.ByDate -> folders.sortedByDescending { it.createdDate }
+                    }.mapIndexed { pos: Int, folder: FolderModel ->
+                        folder.copy(position = Offset(y = (pos * 75).toFloat(), x = 0f))
+                    }
+                })
         }
         WindowsBar(
             windows = windows, onClickMinimizedWindow = { window ->

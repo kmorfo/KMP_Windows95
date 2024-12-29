@@ -95,6 +95,7 @@ fun DraggableWindow(
             Column {
                 WindowToolbar(Modifier.padding(4.dp),
                     windowModel.title,
+                    icon = windowModel.icon,
                     windowModel.selected,
                     onMinimize = { onMinimize() },
                     onExpand = { onExpand() },
