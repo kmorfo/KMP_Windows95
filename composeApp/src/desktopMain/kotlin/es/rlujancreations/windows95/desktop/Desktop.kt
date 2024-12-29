@@ -11,11 +11,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.key
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.unit.IntOffset
 import es.rlujancreations.windows95.components.DraggableFolder
+import es.rlujancreations.windows95.components.RightClickMenu
 import es.rlujancreations.windows95.components.window.DraggableWindow
 import es.rlujancreations.windows95.components.windowsbarmenu.WindowsBar
 import es.rlujancreations.windows95.components.windowsbarmenu.WindowsBarMenuScreen
 import es.rlujancreations.windows95.extensions.clickableWithoutRipple
+import es.rlujancreations.windows95.extensions.onRightClick
 import es.rlujancreations.windows95.model.FolderModel
 import es.rlujancreations.windows95.model.WindowModel
 
@@ -30,15 +33,21 @@ fun Desktop() {
     var folders by remember { mutableStateOf(listOf<FolderModel>(fakeFolder, fakeFolder2)) }
     var windows by remember { mutableStateOf(listOf<WindowModel>()) }
 
+    var showRightClickMenu by remember { mutableStateOf(false) }
+    var rightClickPosition by remember { mutableStateOf(IntOffset.Zero) }
+
     Column {
         Box(
             modifier = Modifier.fillMaxWidth().weight(1f)
                 .clickableWithoutRipple {
                     showWindowsMenu = false
+                    showRightClickMenu = false
                     folders = clearFolders(folders)
                     windows = unselectWindows(windows)
+                }.onRightClick {
+                    rightClickPosition = it
+                    showRightClickMenu = true
                 }) {
-
             folders.forEach { folder ->
                 DraggableFolder(
                     folder,
@@ -118,6 +127,18 @@ fun Desktop() {
                     )
                 }
             }
+            RightClickMenu(
+                showMenu = showRightClickMenu,
+                position = rightClickPosition,
+                onDismissRequest = { showRightClickMenu = false },
+                createNewFolder = {
+                    val newFolder = FolderModel(
+                        id = folders.size + 1, position = Offset(it.x.toFloat(), it.y.toFloat())
+                    )
+                    folders = folders + newFolder
+                    showRightClickMenu = false
+                },
+            )
         }
         WindowsBar(
             windows = windows, onClickMinimizedWindow = { window ->

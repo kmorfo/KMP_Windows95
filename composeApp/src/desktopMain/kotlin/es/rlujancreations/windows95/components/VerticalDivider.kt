@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun VerticalDivider() {
-    Row(modifier = Modifier.width(8.dp).fillMaxHeight().padding(horizontal = 2.dp)) {
+    Row(modifier = Modifier.width(8.dp).fillMaxHeight().padding(vertical = 2.dp)) {
         Box(modifier = Modifier.width(2.dp).fillMaxHeight().background(Color.Black.copy(0.5f)))
         Box(modifier = Modifier.width(2.dp).fillMaxHeight().background(Color.White))
     }

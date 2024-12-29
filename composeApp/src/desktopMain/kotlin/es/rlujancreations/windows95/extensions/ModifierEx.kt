@@ -12,7 +12,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.isSecondaryPressed
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.unit.IntOffset
 
 /**
  * Created by Raúl L.C. on 26/12/24.
@@ -62,6 +66,24 @@ private fun drawPatternBackground(scope: DrawScope) {
         for (y in 0 until scope.size.height.toInt() step size.toInt() * 2) {
             for (x in 0 until scope.size.width.toInt() step size.toInt() * 2) {
                 canvas.drawRect(Rect(x.toFloat(), y.toFloat(), size + x, size + y), paintLightColor)
+            }
+        }
+    }
+}
+
+fun Modifier.onRightClick(onClickPosition: (IntOffset) -> Unit): Modifier {
+    return this.pointerInput(Unit) {
+        awaitPointerEventScope {
+            while (true) {
+                val event = awaitPointerEvent()
+                if (event.type == PointerEventType.Press && event.buttons.isSecondaryPressed) {
+                    onClickPosition(
+                        IntOffset(
+                            x = event.changes.first().position.x.toInt(),
+                            y = event.changes.first().position.y.toInt()
+                        )
+                    )
+                }
             }
         }
     }

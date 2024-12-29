@@ -1,4 +1,4 @@
-package es.rlujancreations.windows95.components
+package es.rlujancreations.windows95.components.rightmenu
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
