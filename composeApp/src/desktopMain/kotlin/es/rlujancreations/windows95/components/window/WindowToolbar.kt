@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -20,16 +19,13 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
 import es.rlujancreations.windows95.components.WindowsButton
 import es.rlujancreations.windows95.ui.backgroundComponent
-import es.rlujancreations.windows95.ui.disabledTextColor
 import es.rlujancreations.windows95.ui.windowsBarTextBackground
 import es.rlujancreations.windows95.ui.windowsBlue
 import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.Resource
 import org.jetbrains.compose.resources.painterResource
 import windows95.composeapp.generated.resources.Res
 import windows95.composeapp.generated.resources.ic_close
 import windows95.composeapp.generated.resources.ic_expand
-import windows95.composeapp.generated.resources.ic_folder_open
 import windows95.composeapp.generated.resources.ic_minimize
 
 /**

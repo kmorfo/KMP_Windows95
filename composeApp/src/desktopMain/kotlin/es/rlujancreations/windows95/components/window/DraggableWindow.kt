@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -45,6 +46,7 @@ fun DraggableWindow(
     onMinimize: () -> Unit,
     onExpand: () -> Unit,
     onClick: () -> Unit,
+    hasStatusBar: Boolean = true
 ) {
 
     var currentOffSet by remember { mutableStateOf(windowModel.position) }
@@ -112,10 +114,17 @@ fun DraggableWindow(
                 }
                 BackgroundComponent(
                     Modifier.fillMaxSize()
-                        .padding(start = 10.dp, end = 10.dp, bottom = 10.dp, top = 4.dp),
+                        .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 4.dp),
                     selected = true
                 ) {
-                    Box(Modifier.fillMaxSize().background(Color.White))
+                    Box(
+                        Modifier.fillMaxSize().background(Color.White),
+                        contentAlignment = Alignment.BottomStart
+                    ) {
+                        if (hasStatusBar) {
+                            WindowStatusBar()
+                        }
+                    }
                 }
             }
         }
