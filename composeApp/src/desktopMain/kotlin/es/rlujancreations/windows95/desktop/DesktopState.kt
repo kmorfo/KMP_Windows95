@@ -1,7 +1,7 @@
 package es.rlujancreations.windows95.desktop
 
 import androidx.compose.ui.unit.IntOffset
-import es.rlujancreations.windows95.domain.model.FolderModel
+import es.rlujancreations.windows95.domain.model.FileModel
 import es.rlujancreations.windows95.model.WindowModel
 
 /**
@@ -9,7 +9,7 @@ import es.rlujancreations.windows95.model.WindowModel
  */
 data class DesktopState(
     val showWindowsMenu: Boolean = false,
-    val folders: List<FolderModel> = emptyList(),
+    val folders: List<FileModel> = emptyList(),
     val windows: List<WindowModel> = emptyList(),
     val showRightClickMenu: Boolean = false,
     val rightClickPosition: IntOffset = IntOffset.Zero,

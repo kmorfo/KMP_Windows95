@@ -36,7 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import es.rlujancreations.windows95.domain.model.FolderModel
+import es.rlujancreations.windows95.domain.model.FileModel
 import es.rlujancreations.windows95.ui.windowsBlue
 import org.jetbrains.compose.resources.painterResource
 
@@ -44,12 +44,12 @@ import org.jetbrains.compose.resources.painterResource
  * Created by Raúl L.C. on 27/12/24.
  */
 @Composable
-fun DraggableFolder(
-    folderModel: FolderModel,
+fun DraggableFile(
+    folderModel: FileModel,
     onMove: (Offset) -> Unit,
     onTapFolder: (Int) -> Unit,
     onRename: (String) -> Unit,
-    onDoubleTapFolder: (FolderModel) -> Unit
+    onDoubleTapFolder: (FileModel) -> Unit
 ) {
     var offset by remember { mutableStateOf(folderModel.position) }
 

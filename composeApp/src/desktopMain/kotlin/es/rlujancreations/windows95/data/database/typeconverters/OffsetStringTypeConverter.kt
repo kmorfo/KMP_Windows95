@@ -1,4 +1,4 @@
-package es.rlujancreations.windows95.data.database
+package es.rlujancreations.windows95.data.database.typeconverters
 
 import androidx.compose.ui.geometry.Offset
 import androidx.room.TypeConverter

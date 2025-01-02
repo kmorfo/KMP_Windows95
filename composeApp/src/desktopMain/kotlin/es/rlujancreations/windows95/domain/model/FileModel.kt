@@ -10,7 +10,7 @@ import windows95.composeapp.generated.resources.ic_folder
 /**
  * Created by Raúl L.C. on 27/12/24.
  */
-data class FolderModel(
+data class FileModel(
     val id: Int,
     val path: String = "Desktop",
     val type: FileType = FileType.Folder,

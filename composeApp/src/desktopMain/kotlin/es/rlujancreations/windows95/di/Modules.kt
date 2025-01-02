@@ -11,7 +11,7 @@ import org.koin.dsl.module
  * Created by Raúl L.C. on 30/12/24.
  */
 val desktopModules = module {
-
+    single { DatabaseFactory() }
     single {
         get<DatabaseFactory>().create()
             .setDriver(BundledSQLiteDriver())

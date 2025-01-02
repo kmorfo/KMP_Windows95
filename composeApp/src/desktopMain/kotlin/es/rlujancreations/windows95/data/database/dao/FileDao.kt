@@ -1,9 +1,10 @@
-package es.rlujancreations.windows95.data.database
+package es.rlujancreations.windows95.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
+import es.rlujancreations.windows95.data.database.entities.FileEntity
 import kotlinx.coroutines.flow.Flow
 
 /**

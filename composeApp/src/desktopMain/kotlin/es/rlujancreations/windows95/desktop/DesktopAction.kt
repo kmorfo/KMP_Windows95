@@ -3,7 +3,7 @@ package es.rlujancreations.windows95.desktop
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.IntOffset
 import es.rlujancreations.windows95.domain.model.FileSortType
-import es.rlujancreations.windows95.domain.model.FolderModel
+import es.rlujancreations.windows95.domain.model.FileModel
 
 /**
  * Created by Raúl L.C. on 30/12/24.
@@ -18,7 +18,7 @@ sealed interface DesktopAction {
     data class OnFileMove(val fileId: Int, val offset: Offset) : DesktopAction
     data class OnRenameFile(val fileId: Int, val newName: String) : DesktopAction
     data class OnTabFile(val fileId: Int) : DesktopAction
-    data class OnDoubleTabFile(val file: FolderModel) : DesktopAction
+    data class OnDoubleTabFile(val file: FileModel) : DesktopAction
 
     data class OnSortFiles(val sortType: FileSortType) : DesktopAction
 

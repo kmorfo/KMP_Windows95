@@ -3,21 +3,28 @@ package es.rlujancreations.windows95.desktop
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import es.rlujancreations.windows95.data.database.dao.FileDao
+import es.rlujancreations.windows95.data.mappers.toEntity
 import es.rlujancreations.windows95.helper.DefaultFoldersProvider
 import es.rlujancreations.windows95.domain.model.FileSortType
-import es.rlujancreations.windows95.domain.model.FolderModel
+import es.rlujancreations.windows95.domain.model.FileModel
 import es.rlujancreations.windows95.model.WindowModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 /**
  * Created by Raúl L.C. on 30/12/24.
  */
-class DesktopViewModel() : ViewModel() {
+class DesktopViewModel(
+    private val fileDao: FileDao
+) : ViewModel() {
     private var observeFilesJob: Job? = null
 
     private val _state = MutableStateFlow(DesktopState())
@@ -32,6 +39,12 @@ class DesktopViewModel() : ViewModel() {
         )
 
     private fun observeFiles() {
+        observeFilesJob?.cancel()
+        observeFilesJob = fileDao.getPathFiles("Desktop").onEach { file ->
+            println("File ${file.size}")
+
+        }.launchIn(viewModelScope)
+
         _state.update { it.copy(folders = DefaultFoldersProvider.default) }
     }
 
@@ -99,10 +112,14 @@ class DesktopViewModel() : ViewModel() {
             }
 
             is DesktopAction.OnCreateFolder -> {
-                val newFolder = FolderModel(
+                val newFolder = FileModel(
                     id = _state.value.folders.size + 1,
                     position = Offset(action.position.x, action.position.y)
                 )
+                viewModelScope.launch {
+                    fileDao.upsertFile(newFolder.toEntity())
+                }
+
                 _state.update {
                     it.copy(
                         folders = it.folders + newFolder,
@@ -118,7 +135,7 @@ class DesktopViewModel() : ViewModel() {
                         folders = when (action.sortType) {
                             FileSortType.ByName -> it.folders.sortedBy { it.name }
                             FileSortType.ByDate -> it.folders.sortedByDescending { it.createdDate }
-                        }.mapIndexed { pos: Int, folder: FolderModel ->
+                        }.mapIndexed { pos: Int, folder: FileModel ->
                             folder.copy(position = Offset(y = (pos * 75).toFloat(), x = 0f))
                         }
                     )

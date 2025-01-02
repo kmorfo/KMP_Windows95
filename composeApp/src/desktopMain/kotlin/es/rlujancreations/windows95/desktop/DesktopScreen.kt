@@ -9,7 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.runtime.key
-import es.rlujancreations.windows95.components.DraggableFolder
+import es.rlujancreations.windows95.components.DraggableFile
 import es.rlujancreations.windows95.components.RightClickMenu
 import es.rlujancreations.windows95.components.window.DraggableWindow
 import es.rlujancreations.windows95.components.windowsbarmenu.WindowsBar
@@ -36,7 +36,7 @@ fun Desktop(
                     desktopViewModel.onAction(DesktopAction.OnClickRightClick(it))
                 }) {
             state.folders.forEach { folder ->
-                DraggableFolder(
+                DraggableFile(
                     folder,
                     onMove = { newPosition ->
                         desktopViewModel.onAction(DesktopAction.OnFileMove(folder.id, newPosition))

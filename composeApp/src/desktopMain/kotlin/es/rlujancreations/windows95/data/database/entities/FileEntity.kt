@@ -1,9 +1,10 @@
-package es.rlujancreations.windows95.data.database
+package es.rlujancreations.windows95.data.database.entities
 
 import androidx.compose.ui.geometry.Offset
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import es.rlujancreations.windows95.domain.model.FileType
+import org.jetbrains.compose.resources.DrawableResource
 
 /**
  * Created by Raúl L.C. on 2/1/25.
@@ -14,8 +15,8 @@ data class FileEntity(
     val path: String,
     val type: FileType = FileType.Folder,
     val name: String = "New folder",
-    val position: Offset,
+    val position: String,//Offset,
     val createdDate: String,
     val selected: Boolean = false,
-    val icon: String
+    val icon: String,// DrawableResource
 )
