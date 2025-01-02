@@ -4,10 +4,17 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
     jvm("desktop")
+
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
     
     sourceSets {
         val desktopMain by getting
@@ -27,6 +34,11 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             api(libs.koin.core)
+
+            implementation(libs.sqlite.bundled)
+            implementation(libs.androidx.room.runtime)
+
+            implementation(libs.kotlinx.serialization.json)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -35,6 +47,10 @@ kotlin {
     }
 }
 
+dependencies {
+    add("kspCommonMainMetadata", libs.androidx.room.compiler)
+    add("kspDesktop", libs.androidx.room.compiler)
+}
 
 compose.desktop {
     application {
@@ -44,6 +60,14 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "es.rlujancreations.windows95"
             packageVersion = "1.0.0"
+
+            macOS{
+                iconFile.set(project.file("resources/icon.icns"))
+            }
+
+//            windows{
+//                iconFile.set(project.file("resources/icon.ico"))
+//            }
         }
     }
 }

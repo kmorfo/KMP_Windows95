@@ -1,4 +1,4 @@
-package es.rlujancreations.windows95.model
+package es.rlujancreations.windows95.domain.model
 
 import androidx.compose.ui.geometry.Offset
 import kotlinx.datetime.Clock
@@ -12,6 +12,8 @@ import windows95.composeapp.generated.resources.ic_folder
  */
 data class FolderModel(
     val id: Int,
+    val path: String = "Desktop",
+    val type: FileType = FileType.Folder,
     val name: String = "New folder",
     val position: Offset,
     val createdDate: Instant = Clock.System.now(),

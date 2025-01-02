@@ -2,8 +2,8 @@ package es.rlujancreations.windows95.desktop
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.IntOffset
-import es.rlujancreations.windows95.model.FileSortType
-import es.rlujancreations.windows95.model.FolderModel
+import es.rlujancreations.windows95.domain.model.FileSortType
+import es.rlujancreations.windows95.domain.model.FolderModel
 
 /**
  * Created by Raúl L.C. on 30/12/24.

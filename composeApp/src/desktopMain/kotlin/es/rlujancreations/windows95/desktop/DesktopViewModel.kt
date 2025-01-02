@@ -4,8 +4,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.rlujancreations.windows95.helper.DefaultFoldersProvider
-import es.rlujancreations.windows95.model.FileSortType
-import es.rlujancreations.windows95.model.FolderModel
+import es.rlujancreations.windows95.domain.model.FileSortType
+import es.rlujancreations.windows95.domain.model.FolderModel
 import es.rlujancreations.windows95.model.WindowModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow

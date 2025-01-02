@@ -76,3 +76,5 @@ Ya con el curso finalizado iré añadiendo más funcionalidades al proyecto.
 -   [Windows 95 all icons](https://archive.org/details/windows-95-all-icons)
 
 -   [Example Windows 95 Minesweeper](https://minesweepergame.com/download/windows-95-minesweeper.php)
+
+-   [Convertir imagen a icon valido](https://onlineconvert.cloud/)

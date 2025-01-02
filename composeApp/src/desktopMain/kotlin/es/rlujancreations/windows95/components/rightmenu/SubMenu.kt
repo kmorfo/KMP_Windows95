@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import es.rlujancreations.windows95.components.BackgroundComponent
-import es.rlujancreations.windows95.model.SubMenuItem
+import es.rlujancreations.windows95.domain.model.SubMenuItem
 /**
  * Created by Raúl L.C. on 28/12/24.
  */

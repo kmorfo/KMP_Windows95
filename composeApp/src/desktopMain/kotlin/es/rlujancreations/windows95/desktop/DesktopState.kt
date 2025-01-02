@@ -1,7 +1,7 @@
 package es.rlujancreations.windows95.desktop
 
 import androidx.compose.ui.unit.IntOffset
-import es.rlujancreations.windows95.model.FolderModel
+import es.rlujancreations.windows95.domain.model.FolderModel
 import es.rlujancreations.windows95.model.WindowModel
 
 /**

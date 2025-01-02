@@ -20,10 +20,10 @@ import androidx.compose.ui.window.Popup
 import es.rlujancreations.windows95.components.rightmenu.MenuDivider
 import es.rlujancreations.windows95.components.rightmenu.MenuItem
 import es.rlujancreations.windows95.components.rightmenu.SubMenu
-import es.rlujancreations.windows95.model.FileSortType
-import es.rlujancreations.windows95.model.FileSortType.ByDate
-import es.rlujancreations.windows95.model.FileSortType.ByName
-import es.rlujancreations.windows95.model.SubMenuItem
+import es.rlujancreations.windows95.domain.model.FileSortType
+import es.rlujancreations.windows95.domain.model.FileSortType.ByDate
+import es.rlujancreations.windows95.domain.model.FileSortType.ByName
+import es.rlujancreations.windows95.domain.model.SubMenuItem
 
 /**
  * Created by Raúl L.C. on 28/12/24.

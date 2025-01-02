@@ -1,4 +1,4 @@
-package es.rlujancreations.windows95.model
+package es.rlujancreations.windows95.domain.model
 
 /**
  * Created by Raúl L.C. on 29/12/24.

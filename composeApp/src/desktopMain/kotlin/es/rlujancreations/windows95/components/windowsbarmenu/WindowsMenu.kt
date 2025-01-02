@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.sp
 import es.rlujancreations.windows95.components.BackgroundComponent
 import es.rlujancreations.windows95.components.rightmenu.MenuDivider
 import es.rlujancreations.windows95.extensions.rotateVertically
-import es.rlujancreations.windows95.model.WindowsMenuCategory
-import es.rlujancreations.windows95.model.WindowsMenuCategory.*
+import es.rlujancreations.windows95.domain.model.WindowsMenuCategory
+import es.rlujancreations.windows95.domain.model.WindowsMenuCategory.*
 import es.rlujancreations.windows95.ui.backgroundComponent
 import es.rlujancreations.windows95.ui.windowsBarTextBackground
 import org.jetbrains.compose.resources.painterResource

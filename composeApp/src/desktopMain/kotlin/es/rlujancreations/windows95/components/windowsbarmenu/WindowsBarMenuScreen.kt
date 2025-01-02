@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import es.rlujancreations.windows95.components.BackgroundComponent
 import es.rlujancreations.windows95.components.rightmenu.MenuDivider
-import es.rlujancreations.windows95.model.WindowsMenuCategory
+import es.rlujancreations.windows95.domain.model.WindowsMenuCategory
 import es.rlujancreations.windows95.ui.backgroundComponent
 import org.jetbrains.compose.resources.painterResource
 import windows95.composeapp.generated.resources.Res

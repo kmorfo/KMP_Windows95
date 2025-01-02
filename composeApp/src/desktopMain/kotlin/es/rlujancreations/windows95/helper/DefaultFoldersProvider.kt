@@ -1,7 +1,7 @@
 package es.rlujancreations.windows95.helper
 
 import androidx.compose.ui.geometry.Offset
-import es.rlujancreations.windows95.model.FolderModel
+import es.rlujancreations.windows95.domain.model.FolderModel
 import windows95.composeapp.generated.resources.Res
 import windows95.composeapp.generated.resources.ic_aoe
 import windows95.composeapp.generated.resources.ic_bin
@@ -14,21 +14,35 @@ import windows95.composeapp.generated.resources.ic_network
  */
 object DefaultFoldersProvider {
     val default = listOf(
-        FolderModel(0, "My Computer", Offset(x = 10f, y = 10f), icon = Res.drawable.ic_my_computer),
         FolderModel(
-            1, "Network Neighborhood", Offset(x = 10f, y = 110f), icon = Res.drawable.ic_network
+            id = 0,
+            "My Computer",
+            position = Offset(x = 10f, y = 10f),
+            icon = Res.drawable.ic_my_computer
         ),
         FolderModel(
-            2, "Internet Explorer", Offset(x = 10f, y = 210f), icon = Res.drawable.ic_ie
+            id = 1,
+            "Network Neighborhood",
+            position = Offset(x = 10f, y = 110f),
+            icon = Res.drawable.ic_network
         ),
         FolderModel(
-            3,
+            id = 2,
+            "Internet Explorer",
+            position = Offset(x = 10f, y = 210f),
+            icon = Res.drawable.ic_ie
+        ),
+        FolderModel(
+            id = 3,
             "Microsoft Age of Empires II",
-            Offset(x = 10f, y = 310f),
+            position = Offset(x = 10f, y = 310f),
             icon = Res.drawable.ic_aoe
         ),
         FolderModel(
-            4, "Recycle Bin", Offset(x = 1100f, y = 750f), icon = Res.drawable.ic_bin
+            id = 4,
+            "Recycle Bin",
+            position = Offset(x = 1100f, y = 750f),
+            icon = Res.drawable.ic_bin
         ),
     )
 }

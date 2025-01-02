@@ -36,7 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import es.rlujancreations.windows95.model.FolderModel
+import es.rlujancreations.windows95.domain.model.FolderModel
 import es.rlujancreations.windows95.ui.windowsBlue
 import org.jetbrains.compose.resources.painterResource
 
