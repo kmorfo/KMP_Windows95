@@ -35,7 +35,7 @@ fun Desktop(
                 }.onRightClick {
                     desktopViewModel.onAction(DesktopAction.OnClickRightClick(it))
                 }) {
-            state.folders.forEach { folder ->
+            state.files.forEach { folder ->
                 DraggableFile(
                     folder,
                     onMove = { newPosition ->

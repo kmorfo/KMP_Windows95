@@ -1,11 +1,9 @@
 package es.rlujancreations.windows95.data.mappers
 
+import androidx.compose.ui.geometry.Offset
 import es.rlujancreations.windows95.data.database.entities.FileEntity
 import es.rlujancreations.windows95.domain.model.FileModel
 import kotlinx.datetime.Instant
-import androidx.compose.ui.geometry.Offset
-import windows95.composeapp.generated.resources.Res
-import windows95.composeapp.generated.resources.ic_folder
 
 /**
  * Created by Raúl L.C. on 2/1/25.
@@ -16,10 +14,10 @@ fun FileEntity.toFileModel(): FileModel {
         path = path,
         type = type,
         name = name,
-        position = Offset(0f, 0f),
+        position = position,
         createdDate = Instant.parse(createdDate),
-        selected = selected,
-        icon = Res.drawable.ic_folder,
+        selected = false,
+        icon = icon,
     )
 }
 
@@ -29,9 +27,8 @@ fun FileModel.toEntity(): FileEntity {
         path = path,
         type = type,
         name = name,
-        position = "position",
+        position = position,
         createdDate = createdDate.toString(),
-        selected = selected,
-        icon = "Res.drawable.ic_folder",
+        icon = icon,
     )
 }

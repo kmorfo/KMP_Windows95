@@ -3,12 +3,13 @@ package es.rlujancreations.windows95.desktop
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import es.rlujancreations.windows95.data.database.dao.FileDao
 import es.rlujancreations.windows95.data.mappers.toEntity
-import es.rlujancreations.windows95.helper.DefaultFoldersProvider
-import es.rlujancreations.windows95.domain.model.FileSortType
+import es.rlujancreations.windows95.domain.FileRepository
 import es.rlujancreations.windows95.domain.model.FileModel
+import es.rlujancreations.windows95.domain.model.FileSortType
+import es.rlujancreations.windows95.helper.DefaultFoldersProvider
 import es.rlujancreations.windows95.model.WindowModel
+import es.rlujancreations.windows95.ui.getIcon
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -23,7 +24,7 @@ import kotlinx.coroutines.launch
  * Created by Raúl L.C. on 30/12/24.
  */
 class DesktopViewModel(
-    private val fileDao: FileDao
+    private val fileRepository: FileRepository
 ) : ViewModel() {
     private var observeFilesJob: Job? = null
 
@@ -40,12 +41,15 @@ class DesktopViewModel(
 
     private fun observeFiles() {
         observeFilesJob?.cancel()
-        observeFilesJob = fileDao.getPathFiles("Desktop").onEach { file ->
-            println("File ${file.size}")
-
+        observeFilesJob = fileRepository.getPathFiles("Desktop").onEach { files ->
+            if (files.isNotEmpty()) {
+                _state.update { it.copy(files = files) }
+            } else {
+                DefaultFoldersProvider.default.map { fileRepository.upsertFile(it.toEntity()) }
+            }
         }.launchIn(viewModelScope)
 
-        _state.update { it.copy(folders = DefaultFoldersProvider.default) }
+
     }
 
     fun onAction(action: DesktopAction) {
@@ -61,7 +65,7 @@ class DesktopViewModel(
             is DesktopAction.OnFileMove -> {
                 _state.update {
                     it.copy(
-                        folders = it.folders.map { folder ->
+                        files = it.files.map { folder ->
                             if (folder.id == action.fileId) {
                                 folder.copy(position = action.offset)
                             } else {
@@ -90,7 +94,7 @@ class DesktopViewModel(
             is DesktopAction.OnTabFile -> {
                 _state.update {
                     it.copy(
-                        folders = it.folders.map { file -> file.copy(selected = action.fileId == file.id) }
+                        files = it.files.map { file -> file.copy(selected = action.fileId == file.id) }
                     )
                 }
             }
@@ -104,7 +108,7 @@ class DesktopViewModel(
             is DesktopAction.OnRenameFile -> {
                 _state.update {
                     it.copy(
-                        folders = it.folders.map { folder ->
+                        files = it.files.map { folder ->
                             if (folder.id == action.fileId) folder.copy(name = action.newName) else folder
                         }
                     )
@@ -113,16 +117,17 @@ class DesktopViewModel(
 
             is DesktopAction.OnCreateFolder -> {
                 val newFolder = FileModel(
-                    id = _state.value.folders.size + 1,
+                    id = _state.value.files.size + 1,
                     position = Offset(action.position.x, action.position.y)
                 )
                 viewModelScope.launch {
-                    fileDao.upsertFile(newFolder.toEntity())
+
+                    fileRepository.upsertFile(newFolder.toEntity())
                 }
 
                 _state.update {
                     it.copy(
-                        folders = it.folders + newFolder,
+                        files = it.files + newFolder,
                         showRightClickMenu = false
                     )
                 }
@@ -132,9 +137,9 @@ class DesktopViewModel(
                 _state.update {
                     it.copy(
                         showRightClickMenu = false,
-                        folders = when (action.sortType) {
-                            FileSortType.ByName -> it.folders.sortedBy { it.name }
-                            FileSortType.ByDate -> it.folders.sortedByDescending { it.createdDate }
+                        files = when (action.sortType) {
+                            FileSortType.ByName -> it.files.sortedBy { it.name }
+                            FileSortType.ByDate -> it.files.sortedByDescending { it.createdDate }
                         }.mapIndexed { pos: Int, folder: FileModel ->
                             folder.copy(position = Offset(y = (pos * 75).toFloat(), x = 0f))
                         }
@@ -179,7 +184,7 @@ class DesktopViewModel(
                     val newWindow = WindowModel(
                         id = action.file.id,
                         title = action.file.name,
-                        icon = action.file.icon,
+                        icon = getIcon(action.file.icon),
                         selected = true,
                         position = Offset(100f + extraPosition, 100f + extraPosition)
                     )
@@ -258,7 +263,7 @@ class DesktopViewModel(
 
     private fun clearFolders() {
         _state.update {
-            it.copy(folders = _state.value.folders.map { folder ->
+            it.copy(files = _state.value.files.map { folder ->
                 folder.copy(selected = false)
             })
         }

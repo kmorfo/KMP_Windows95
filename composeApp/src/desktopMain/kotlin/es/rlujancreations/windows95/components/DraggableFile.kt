@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import es.rlujancreations.windows95.domain.model.FileModel
+import es.rlujancreations.windows95.ui.getIcon
 import es.rlujancreations.windows95.ui.windowsBlue
 import org.jetbrains.compose.resources.painterResource
 
@@ -96,13 +97,13 @@ fun DraggableFile(
             Box(modifier = Modifier.width(50.dp).height(intrinsicSize = IntrinsicSize.Min)) {
                 Image(
                     modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(folderModel.icon),
+                    painter = painterResource(getIcon(folderModel.icon)),
                     contentDescription = "folder"
                 )
                 if (folderModel.selected) {
                     Icon(
                         modifier = Modifier.fillMaxSize(),
-                        painter = painterResource(folderModel.icon),
+                        painter = painterResource(getIcon(folderModel.icon)),
                         contentDescription = "folder",
                         tint = windowsBlue.copy(alpha = 0.4f)
                     )

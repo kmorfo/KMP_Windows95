@@ -15,34 +15,39 @@ import windows95.composeapp.generated.resources.ic_network
 object DefaultFoldersProvider {
     val default = listOf(
         FileModel(
-            id = 0,
-            "My Computer",
-            position = Offset(x = 10f, y = 10f),
-            icon = Res.drawable.ic_my_computer
-        ),
-        FileModel(
             id = 1,
-            "Network Neighborhood",
-            position = Offset(x = 10f, y = 110f),
-            icon = Res.drawable.ic_network
+            path = "Desktop",
+            name = "My Computer",
+            position = Offset(x = 10f, y = 10f),
+            icon = "ic_my_computer"
         ),
         FileModel(
             id = 2,
-            "Internet Explorer",
-            position = Offset(x = 10f, y = 210f),
-            icon = Res.drawable.ic_ie
+            path = "Desktop",
+            name = "Network Neighborhood",
+            position = Offset(x = 10f, y = 110f),
+            icon = "ic_network"
         ),
         FileModel(
             id = 3,
-            "Microsoft Age of Empires II",
-            position = Offset(x = 10f, y = 310f),
-            icon = Res.drawable.ic_aoe
+            path = "Desktop",
+            name = "Internet Explorer",
+            position = Offset(x = 10f, y = 210f),
+            icon = "ic_ie"
         ),
         FileModel(
             id = 4,
-            "Recycle Bin",
+            path = "Desktop",
+            name = "Microsoft Age of Empires II",
+            position = Offset(x = 10f, y = 310f),
+            icon = "ic_aoe"
+        ),
+        FileModel(
+            id = 5,
+            path = "Desktop",
+            name = "Recycle Bin",
             position = Offset(x = 1100f, y = 750f),
-            icon = Res.drawable.ic_bin
+            icon = "ic_bin"
         ),
     )
 }

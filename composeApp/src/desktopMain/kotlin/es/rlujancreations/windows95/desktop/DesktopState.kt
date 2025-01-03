@@ -9,7 +9,7 @@ import es.rlujancreations.windows95.model.WindowModel
  */
 data class DesktopState(
     val showWindowsMenu: Boolean = false,
-    val folders: List<FileModel> = emptyList(),
+    val files: List<FileModel> = emptyList(),
     val windows: List<WindowModel> = emptyList(),
     val showRightClickMenu: Boolean = false,
     val rightClickPosition: IntOffset = IntOffset.Zero,

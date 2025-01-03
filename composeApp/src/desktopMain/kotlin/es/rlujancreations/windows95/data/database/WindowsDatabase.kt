@@ -5,7 +5,6 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import es.rlujancreations.windows95.data.database.dao.FileDao
 import es.rlujancreations.windows95.data.database.entities.FileEntity
-import es.rlujancreations.windows95.data.database.typeconverters.DrawableResourceConverter
 import es.rlujancreations.windows95.data.database.typeconverters.OffsetStringTypeConverter
 
 /**
@@ -19,8 +18,7 @@ import es.rlujancreations.windows95.data.database.typeconverters.OffsetStringTyp
     exportSchema = false
 )
 @TypeConverters(
-//    OffsetStringTypeConverter::class,
-//    DrawableResourceConverter::class
+    OffsetStringTypeConverter::class,
 )
 abstract class WindowsDatabase : RoomDatabase() {
     abstract fun fileDao(): FileDao

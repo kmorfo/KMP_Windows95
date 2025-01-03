@@ -2,8 +2,6 @@ package es.rlujancreations.windows95.data.database.typeconverters
 
 import androidx.compose.ui.geometry.Offset
 import androidx.room.TypeConverter
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 /**
  * Created by Raúl L.C. on 2/1/25.
@@ -11,11 +9,12 @@ import kotlinx.serialization.json.Json
 object OffsetStringTypeConverter {
     @TypeConverter
     fun fromString(value: String): Offset {
-        return Json.decodeFromString(value)
+        val (x, y) = value.split(",").map { it.toFloat() }
+        return Offset(x, y)
     }
 
     @TypeConverter
     fun fromList(offset: Offset): String {
-        return Json.encodeToString(offset)
+        return "${offset.x},${offset.y}"
     }
 }
