@@ -32,7 +32,8 @@ fun Desktop(
             modifier = Modifier.fillMaxWidth().weight(1f)
                 .clickableWithoutRipple {
                     desktopViewModel.onAction(DesktopAction.OnClearWindows)
-                }.onRightClick {
+                }
+                .onRightClick {
                     desktopViewModel.onAction(DesktopAction.OnClickRightClick(it))
                 }) {
             state.files.forEach { folder ->
@@ -47,8 +48,11 @@ fun Desktop(
                     onRename = { newName ->
                         desktopViewModel.onAction(DesktopAction.OnRenameFile(folder.id, newName))
                     },
-                    onDoubleTapFolder = { selectedFolder ->
+                    onDoubleTapFile = { selectedFolder ->
                         desktopViewModel.onAction(DesktopAction.OnDoubleTabFile(selectedFolder))
+                    },
+                    onRightClick = { file ->
+                        desktopViewModel.onAction(DesktopAction.OnRightClickFile(file))
                     }
                 )
             }
@@ -78,6 +82,7 @@ fun Desktop(
             RightClickMenu(
                 showMenu = state.showRightClickMenu,
                 position = state.rightClickPosition,
+                rightClickFile = state.rightClickFile,
                 onDismissRequest = { DesktopAction.OnDismissRightClickMenu },
                 createNewFolder = {
                     desktopViewModel.onAction(
@@ -87,8 +92,16 @@ fun Desktop(
                 sortFolders = { sortType ->
                     desktopViewModel.onAction(DesktopAction.OnSortFiles(sortType))
                 },
-                isSelectedFile = (state.files.firstOrNull { it.selected } != null),
-                removeFile = { desktopViewModel.onAction(DesktopAction.OnRemoveFile) }
+                removeFile = { desktopViewModel.onAction(DesktopAction.OnRemoveFile) },
+                openFile = {
+                    if (state.rightClickFile != null)
+                        desktopViewModel.onAction(
+                            DesktopAction.OnDoubleTabFile(state.rightClickFile!!)
+                        )
+                },
+                renameFile = {
+
+                }
             )
         }
         WindowsBar(

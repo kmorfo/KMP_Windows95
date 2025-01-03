@@ -24,12 +24,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import es.rlujancreations.windows95.extensions.clickableWithoutRipple
 import es.rlujancreations.windows95.ui.backgroundComponent
 import es.rlujancreations.windows95.ui.disabledTextColor
 import es.rlujancreations.windows95.ui.windowsBlue
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import windows95.composeapp.generated.resources.Res
 import windows95.composeapp.generated.resources.ic_arrow
@@ -40,8 +42,10 @@ import windows95.composeapp.generated.resources.ic_arrow
 @Composable
 fun MenuItem(
     text: String,
+    icon: DrawableResource? = null,
     enabled: Boolean = true,
     showSubMenu: Boolean = false,
+    isTextBold: Boolean = false,
     hovered: (Offset?) -> Unit,
     onClick: () -> Unit = {}
 ) {
@@ -71,10 +75,19 @@ fun MenuItem(
                 x = position.x + layoutCoordinates.size.width.toFloat() + 10, y = position.y
             )
         }) {
+        if (icon != null) {
+            Icon(
+                modifier = Modifier.padding(horizontal = 4.dp).size(12.dp),
+                painter = painterResource(icon),
+                tint = textColor,
+                contentDescription = "icon $text"
+            )
+        }
         Spacer(Modifier.width(20.dp))
         Text(
             text,
             color = if (enabled) textColor else disabledTextColor,
+            fontWeight = if (isTextBold) FontWeight.Bold else null,
             style = TextStyle(lineHeight = 0.sp)
         )
         Spacer(Modifier.weight(1f))

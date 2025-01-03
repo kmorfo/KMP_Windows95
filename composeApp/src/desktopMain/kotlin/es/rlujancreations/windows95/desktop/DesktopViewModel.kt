@@ -3,7 +3,6 @@ package es.rlujancreations.windows95.desktop
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import es.rlujancreations.windows95.data.mappers.toEntity
 import es.rlujancreations.windows95.domain.FileRepository
 import es.rlujancreations.windows95.domain.model.FileModel
 import es.rlujancreations.windows95.domain.model.FileSortType
@@ -73,12 +72,18 @@ class DesktopViewModel(
                     //Remove selected file
                     val selectedFile = _state.value.files.first { it.selected }
                     fileRepository.deleteFile(selectedFile)
-                    _state.update { it.copy(showRightClickMenu = false) }
+                    _state.update { it.copy(rightClickFile = null, showRightClickMenu = false) }
                 }
             }
 
             DesktopAction.OnClearWindows -> {
-                _state.update { it.copy(showWindowsMenu = false, showRightClickMenu = false) }
+                _state.update {
+                    it.copy(
+                        showWindowsMenu = false,
+                        showRightClickMenu = false,
+                        rightClickFile = null
+                    )
+                }
                 clearFolders()
                 unselectWindows()
             }
@@ -166,6 +171,8 @@ class DesktopViewModel(
                 if (state.value.windows.any { window -> window.id == action.file.id }) {
                     _state.update {
                         it.copy(
+                            rightClickFile = null,
+                            showRightClickMenu = false,
                             windows = it.windows.map { window ->
                                 if (window.id == action.file.id) window.copy(selected = true)
                                 else window.copy(selected = false)
@@ -184,9 +191,20 @@ class DesktopViewModel(
                     )
                     _state.update {
                         it.copy(
+                            rightClickFile = null,
+                            showRightClickMenu = false,
                             windows = it.windows + newWindow
                         )
                     }
+                }
+            }
+
+            is DesktopAction.OnRightClickFile -> {
+                _state.update {
+                    it.copy(
+                        rightClickFile = action.file,
+                        showRightClickMenu = true
+                    )
                 }
             }
 

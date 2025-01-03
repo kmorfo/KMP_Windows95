@@ -19,6 +19,7 @@ sealed interface DesktopAction {
     data class OnRenameFile(val fileId: Int, val newName: String) : DesktopAction
     data object OnRemoveFile : DesktopAction
     data class OnTabFile(val fileId: Int) : DesktopAction
+    data class OnRightClickFile(val file: FileModel) : DesktopAction
     data class OnDoubleTabFile(val file: FileModel) : DesktopAction
 
     data class OnSortFiles(val sortType: FileSortType) : DesktopAction

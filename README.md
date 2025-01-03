@@ -16,6 +16,14 @@ Durante el curso fui añadiendo y modificando algunos detalles que consideré op
 Ya con el curso finalizado iré añadiendo más funcionalidades al proyecto.
 
 ---
+# Caracteristicas añadidas
+- Añadida inyección de dependencias con Koin
+- Persistencia de datos con room
+- Menú derecho sobre icono
+- Status bar
+- Otros detalles estéticos
+- 
+---
 
 ## 🛠 Instalación
 

@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import es.rlujancreations.windows95.domain.model.FileModel
+import es.rlujancreations.windows95.extensions.onRightClick
 import es.rlujancreations.windows95.ui.getIcon
 import es.rlujancreations.windows95.ui.windowsBlue
 import org.jetbrains.compose.resources.painterResource
@@ -46,27 +47,29 @@ import org.jetbrains.compose.resources.painterResource
  */
 @Composable
 fun DraggableFile(
-    folderModel: FileModel,
+    file: FileModel,
     onMove: (Offset) -> Unit,
     onTapFile: (Int) -> Unit,
     onRename: (String) -> Unit,
-    onDoubleTapFolder: (FileModel) -> Unit
+    onRightClick: (FileModel) -> Unit,
+    onDoubleTapFile: (FileModel) -> Unit
 ) {
-    var offset by remember { mutableStateOf(folderModel.position) }
+    var offset by remember { mutableStateOf(file.position) }
 
-    var newName by remember { mutableStateOf(folderModel.name) }
+    var newName by remember { mutableStateOf(file.name) }
     var isEditing by remember { mutableStateOf(false) }
     var lastClickTime by remember { mutableStateOf(0L) }
 
     val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(folderModel) {
-        offset = folderModel.position
+    LaunchedEffect(file) {
+        offset = file.position
     }
 
     Box(
-        modifier = Modifier.offset(folderModel.position.x.dp, folderModel.position.y.dp)
+        modifier = Modifier.offset(file.position.x.dp, file.position.y.dp)
             .width(83.dp)
+            .onRightClick { onRightClick(file) }
             .pointerInput(Unit) {
                 detectTransformGestures { _, pan, _, _ ->
                     offset = offset.copy(x = offset.x + pan.x, y = offset.y + pan.y)
@@ -76,7 +79,7 @@ fun DraggableFile(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        onTapFile(folderModel.id)
+                        onTapFile(file.id)
 
                         val currentTime = System.currentTimeMillis()
                         val timeSinceLastClick = currentTime - lastClickTime
@@ -85,10 +88,12 @@ fun DraggableFile(
                         }
                         lastClickTime = currentTime
                     },
-                    onPress = { onTapFile(folderModel.id) },
-                    onDoubleTap = { onDoubleTapFolder(folderModel) }
+                    onPress = { onTapFile(file.id) },
+                    onDoubleTap = { onDoubleTapFile(file) }
+
                 )
             }
+
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -97,13 +102,13 @@ fun DraggableFile(
             Box(modifier = Modifier.width(50.dp).height(intrinsicSize = IntrinsicSize.Min)) {
                 Image(
                     modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(getIcon(folderModel.icon)),
+                    painter = painterResource(getIcon(file.icon)),
                     contentDescription = "folder"
                 )
-                if (folderModel.selected) {
+                if (file.selected) {
                     Icon(
                         modifier = Modifier.fillMaxSize(),
-                        painter = painterResource(getIcon(folderModel.icon)),
+                        painter = painterResource(getIcon(file.icon)),
                         contentDescription = "folder",
                         tint = windowsBlue.copy(alpha = 0.4f)
                     )
@@ -124,12 +129,12 @@ fun DraggableFile(
 
             } else {
                 Text(
-                    folderModel.name,
+                    file.name,
                     color = White,
                     fontSize = 13.sp,
                     maxLines = 2,
                     style = TextStyle(lineHeight = 0.sp),
-                    modifier = Modifier.background(if (folderModel.selected) windowsBlue else Color.Transparent),
+                    modifier = Modifier.background(if (file.selected) windowsBlue else Color.Transparent),
                     textAlign = TextAlign.Center,
                     overflow = TextOverflow.Ellipsis
                 )
