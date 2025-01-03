@@ -1,7 +1,7 @@
 package es.rlujancreations.windows95.data.database
 
 import es.rlujancreations.windows95.data.database.dao.FileDao
-import es.rlujancreations.windows95.data.database.entities.FileEntity
+import es.rlujancreations.windows95.data.mappers.toEntity
 import es.rlujancreations.windows95.data.mappers.toFileModel
 import es.rlujancreations.windows95.domain.FileRepository
 import es.rlujancreations.windows95.domain.model.FileModel
@@ -20,11 +20,11 @@ class FileRepositoryRoom(
         }
     }
 
-    override suspend fun upsertFile(file: FileEntity) {
-        return dao.upsertFile(file)
+    override suspend fun upsertFile(file: FileModel) {
+        return dao.upsertFile(file.toEntity())
     }
 
-    override suspend fun deleteFile(file: FileEntity) {
-        return dao.deleteFile(file)
+    override suspend fun deleteFile(file: FileModel) {
+        return dao.deleteFile(file.toEntity())
     }
 }

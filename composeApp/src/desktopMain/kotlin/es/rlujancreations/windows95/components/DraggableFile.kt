@@ -48,7 +48,7 @@ import org.jetbrains.compose.resources.painterResource
 fun DraggableFile(
     folderModel: FileModel,
     onMove: (Offset) -> Unit,
-    onTapFolder: (Int) -> Unit,
+    onTapFile: (Int) -> Unit,
     onRename: (String) -> Unit,
     onDoubleTapFolder: (FileModel) -> Unit
 ) {
@@ -76,7 +76,7 @@ fun DraggableFile(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        onTapFolder(folderModel.id)
+                        onTapFile(folderModel.id)
 
                         val currentTime = System.currentTimeMillis()
                         val timeSinceLastClick = currentTime - lastClickTime
@@ -85,7 +85,7 @@ fun DraggableFile(
                         }
                         lastClickTime = currentTime
                     },
-                    onPress = { onTapFolder(folderModel.id) },
+                    onPress = { onTapFile(folderModel.id) },
                     onDoubleTap = { onDoubleTapFolder(folderModel) }
                 )
             }

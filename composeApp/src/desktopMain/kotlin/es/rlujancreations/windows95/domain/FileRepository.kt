@@ -10,6 +10,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface FileRepository {
     fun getPathFiles(path: String): Flow<List<FileModel>>
-    suspend fun upsertFile(file: FileEntity)
-    suspend fun deleteFile(file: FileEntity)
+    suspend fun upsertFile(file: FileModel)
+    suspend fun deleteFile(file: FileModel)
 }

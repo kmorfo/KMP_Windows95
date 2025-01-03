@@ -39,9 +39,9 @@ fun Desktop(
                 DraggableFile(
                     folder,
                     onMove = { newPosition ->
-                        desktopViewModel.onAction(DesktopAction.OnFileMove(folder.id, newPosition))
+                        desktopViewModel.onAction(DesktopAction.OnFileMove(folder, newPosition))
                     },
-                    onTapFolder = { id ->
+                    onTapFile = { id ->
                         desktopViewModel.onAction(DesktopAction.OnTabFile(fileId = id))
                     },
                     onRename = { newName ->
@@ -86,7 +86,9 @@ fun Desktop(
                 },
                 sortFolders = { sortType ->
                     desktopViewModel.onAction(DesktopAction.OnSortFiles(sortType))
-                }
+                },
+                isSelectedFile = (state.files.firstOrNull { it.selected } != null),
+                removeFile = { desktopViewModel.onAction(DesktopAction.OnRemoveFile) }
             )
         }
         WindowsBar(

@@ -45,10 +45,9 @@ class DesktopViewModel(
             if (files.isNotEmpty()) {
                 _state.update { it.copy(files = files) }
             } else {
-                DefaultFoldersProvider.default.map { fileRepository.upsertFile(it.toEntity()) }
+                DefaultFoldersProvider.default.map { fileRepository.upsertFile(it) }
             }
         }.launchIn(viewModelScope)
-
 
     }
 
@@ -63,16 +62,18 @@ class DesktopViewModel(
             }
 
             is DesktopAction.OnFileMove -> {
-                _state.update {
-                    it.copy(
-                        files = it.files.map { folder ->
-                            if (folder.id == action.fileId) {
-                                folder.copy(position = action.offset)
-                            } else {
-                                folder
-                            }
-                        }
-                    )
+                viewModelScope.launch {
+                    fileRepository.upsertFile(action.file.copy(position = action.offset))
+                }
+            }
+
+            is DesktopAction.OnRemoveFile -> {
+                viewModelScope.launch {
+                    //TODO create recycle bin
+                    //Remove selected file
+                    val selectedFile = _state.value.files.first { it.selected }
+                    fileRepository.deleteFile(selectedFile)
+                    _state.update { it.copy(showRightClickMenu = false) }
                 }
             }
 
@@ -121,29 +122,24 @@ class DesktopViewModel(
                     position = Offset(action.position.x, action.position.y)
                 )
                 viewModelScope.launch {
-
-                    fileRepository.upsertFile(newFolder.toEntity())
+                    fileRepository.upsertFile(newFolder)
                 }
 
-                _state.update {
-                    it.copy(
-                        files = it.files + newFolder,
-                        showRightClickMenu = false
-                    )
-                }
+                _state.update { it.copy(showRightClickMenu = false) }
             }
 
             is DesktopAction.OnSortFiles -> {
-                _state.update {
-                    it.copy(
-                        showRightClickMenu = false,
-                        files = when (action.sortType) {
-                            FileSortType.ByName -> it.files.sortedBy { it.name }
-                            FileSortType.ByDate -> it.files.sortedByDescending { it.createdDate }
-                        }.mapIndexed { pos: Int, folder: FileModel ->
-                            folder.copy(position = Offset(y = (pos * 75).toFloat(), x = 0f))
-                        }
-                    )
+                _state.update { it.copy(showRightClickMenu = false) }
+
+                viewModelScope.launch {
+                    when (action.sortType) {
+                        FileSortType.ByName -> _state.value.files.sortedBy { it.name }
+                        FileSortType.ByDate -> _state.value.files.sortedByDescending { it.createdDate }
+                        FileSortType.ByType -> _state.value.files.sortedBy { it.type }
+                    }.mapIndexed { pos: Int, file: FileModel ->
+                        file.copy(position = Offset(y = (pos * 75).toFloat(), x = 0f))
+                            .let { fileModel -> fileRepository.upsertFile(fileModel) }
+                    }
                 }
             }
 
@@ -167,8 +163,6 @@ class DesktopViewModel(
             }
 
             is DesktopAction.OnDoubleTabFile -> {
-                val selectedWindow =
-                    state.value.windows.find { window -> window.id == action.file.id }
                 if (state.value.windows.any { window -> window.id == action.file.id }) {
                     _state.update {
                         it.copy(

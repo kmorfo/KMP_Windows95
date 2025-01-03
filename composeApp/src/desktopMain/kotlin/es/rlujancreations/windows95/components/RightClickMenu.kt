@@ -23,6 +23,7 @@ import es.rlujancreations.windows95.components.rightmenu.SubMenu
 import es.rlujancreations.windows95.domain.model.FileSortType
 import es.rlujancreations.windows95.domain.model.FileSortType.ByDate
 import es.rlujancreations.windows95.domain.model.FileSortType.ByName
+import es.rlujancreations.windows95.domain.model.FileSortType.ByType
 import es.rlujancreations.windows95.domain.model.SubMenuItem
 
 /**
@@ -34,7 +35,9 @@ fun RightClickMenu(
     position: IntOffset,
     onDismissRequest: () -> Unit,
     createNewFolder: (IntOffset) -> Unit,
-    sortFolders: (FileSortType) -> Unit
+    sortFolders: (FileSortType) -> Unit,
+    isSelectedFile: Boolean = false,
+    removeFile: () -> Unit
 ) {
     var subMenuPosition: IntOffset? by remember { mutableStateOf(null) }
     var subMenuItems: List<SubMenuItem> by remember { mutableStateOf(emptyList()) }
@@ -57,7 +60,11 @@ fun RightClickMenu(
                             subMenuItems = listOf(
                                 SubMenuItem("By name", onClick = { sortFolders(ByName) }),
                                 SubMenuItem("By size", onClick = {}, enabled = false),
-                                SubMenuItem("By type", onClick = {}, enabled = false),
+                                SubMenuItem(
+                                    "By type",
+                                    onClick = { sortFolders(ByType) },
+                                    enabled = true
+                                ),
                                 SubMenuItem("By date", onClick = { sortFolders(ByDate) })
                             )
                             subMenuPosition = IntOffset(position.x + 170, position.y)
@@ -83,6 +90,13 @@ fun RightClickMenu(
                             subMenuPosition = IntOffset(position.x + 170, position.y + extraY)
                         })
                     MenuDivider()
+                    if (isSelectedFile) {
+                        MenuItem(
+                            text = "Delete",
+                            onClick = { removeFile() },
+                            hovered = { subMenuPosition = null })
+                        MenuDivider()
+                    }
                     MenuItem(text = "Properties", onClick = {
                         //Open properties
                         onDismissRequest()

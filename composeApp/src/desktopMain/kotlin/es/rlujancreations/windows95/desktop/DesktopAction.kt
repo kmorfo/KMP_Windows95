@@ -15,8 +15,9 @@ sealed interface DesktopAction {
 
     data class OnCreateFolder(val position: Offset) : DesktopAction
     data class OnClickRightClick(val position: IntOffset) : DesktopAction
-    data class OnFileMove(val fileId: Int, val offset: Offset) : DesktopAction
+    data class OnFileMove(val file: FileModel, val offset: Offset) : DesktopAction
     data class OnRenameFile(val fileId: Int, val newName: String) : DesktopAction
+    data object OnRemoveFile : DesktopAction
     data class OnTabFile(val fileId: Int) : DesktopAction
     data class OnDoubleTabFile(val file: FileModel) : DesktopAction
 
