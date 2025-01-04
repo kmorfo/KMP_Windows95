@@ -20,4 +20,8 @@ interface FileDao {
 
     @Delete
     suspend fun deleteFile(file: FileEntity)
+
+    @Query("DELETE FROM FileEntity WHERE path = :path")
+    suspend fun deleteChildFiles(path: String)
+
 }

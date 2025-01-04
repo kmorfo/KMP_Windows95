@@ -27,4 +27,8 @@ class FileRepositoryRoom(
     override suspend fun deleteFile(file: FileModel) {
         return dao.deleteFile(file.toEntity())
     }
+
+    override suspend fun deleteChildFiles(path: String) {
+        dao.deleteChildFiles(path)
+    }
 }

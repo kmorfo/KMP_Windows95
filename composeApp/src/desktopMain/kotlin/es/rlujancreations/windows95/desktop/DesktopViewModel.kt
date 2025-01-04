@@ -73,6 +73,8 @@ class DesktopViewModel(
                     //Here we can put the file in Recycle Bin instead of deleting it
                     val selectedFile = _state.value.files.first { it.selected }
                     fileRepository.deleteFile(selectedFile)
+                    fileRepository.deleteChildFiles("${selectedFile.id}")
+
                     _state.update { it.copy(rightClickFile = null, showRightClickMenu = false) }
                 }
             }
