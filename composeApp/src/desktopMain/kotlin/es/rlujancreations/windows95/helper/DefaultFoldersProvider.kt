@@ -47,7 +47,7 @@ object DefaultFoldersProvider {
             path = "Desktop",
             name = "Recycle Bin",
             position = Offset(x = 1100f, y = 750f),
-            icon = "ic_bin"
+            icon = "ic_bin_full"
         ),
     )
 }

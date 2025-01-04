@@ -4,6 +4,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.IntOffset
 import es.rlujancreations.windows95.domain.model.FileSortType
 import es.rlujancreations.windows95.domain.model.FileModel
+import es.rlujancreations.windows95.model.WindowModel
 
 /**
  * Created by Raúl L.C. on 30/12/24.
@@ -34,4 +35,5 @@ sealed interface DesktopAction {
     data class OnWindowMinimize(val windowId: Int) : DesktopAction
     data class OnWindowExpand(val windowId: Int) : DesktopAction
     data class OnWindowClick(val windowId: Int) : DesktopAction
+    data class OnWindowRightClick(val windowId: Int) : DesktopAction
 }

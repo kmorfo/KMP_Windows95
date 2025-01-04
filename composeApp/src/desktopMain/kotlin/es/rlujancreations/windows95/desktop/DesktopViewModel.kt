@@ -47,7 +47,6 @@ class DesktopViewModel(
                 DefaultFoldersProvider.default.map { fileRepository.upsertFile(it) }
             }
         }.launchIn(viewModelScope)
-
     }
 
     fun onAction(action: DesktopAction) {
@@ -64,12 +63,14 @@ class DesktopViewModel(
                 viewModelScope.launch {
                     fileRepository.upsertFile(action.file.copy(position = action.offset))
                 }
+                _state.update {
+                    it.copy(activeWindow = null)
+                }
             }
 
             is DesktopAction.OnRemoveFile -> {
                 viewModelScope.launch {
-                    //TODO create recycle bin
-                    //Remove selected file
+                    //Here we can put the file in Recycle Bin instead of deleting it
                     val selectedFile = _state.value.files.first { it.selected }
                     fileRepository.deleteFile(selectedFile)
                     _state.update { it.copy(rightClickFile = null, showRightClickMenu = false) }
@@ -81,7 +82,8 @@ class DesktopViewModel(
                     it.copy(
                         showWindowsMenu = false,
                         showRightClickMenu = false,
-                        rightClickFile = null
+                        rightClickFile = null,
+                        activeWindow = null
                     )
                 }
                 clearFolders()
@@ -107,30 +109,34 @@ class DesktopViewModel(
 
             DesktopAction.OnDismissRightClickMenu -> {
                 _state.update {
-                    it.copy(showRightClickMenu = false)
+                    it.copy(showRightClickMenu = false, activeWindow = null)
                 }
             }
 
             is DesktopAction.OnRenameFile -> {
-                _state.update {
-                    it.copy(
-                        files = it.files.map { folder ->
-                            if (folder.id == action.fileId) folder.copy(name = action.newName) else folder
-                        }
-                    )
+                viewModelScope.launch {
+                    fileRepository.upsertFile(_state.value.files.first { it.id == action.fileId })
+                    _state.value.files.map { file ->
+                        if (file.id == action.fileId)
+                            fileRepository.upsertFile(file.copy(name = action.newName))
+                    }
                 }
             }
 
             is DesktopAction.OnCreateFolder -> {
+                val path: String =
+                    if (state.value.activeWindow != null) "${state.value.activeWindow}" else "Desktop"
+
                 val newFolder = FileModel(
-                    id = _state.value.files.size + 1,
+                    id = -1,
+                    path = path,
                     position = Offset(action.position.x, action.position.y)
                 )
                 viewModelScope.launch {
                     fileRepository.upsertFile(newFolder)
                 }
 
-                _state.update { it.copy(showRightClickMenu = false) }
+                _state.update { it.copy(showRightClickMenu = false, activeWindow = null) }
             }
 
             is DesktopAction.OnSortFiles -> {
@@ -151,6 +157,7 @@ class DesktopViewModel(
             is DesktopAction.OnClickMinimizedWindow -> {
                 _state.update {
                     it.copy(
+                        activeWindow = null,
                         windows = it.windows.map { window ->
                             if (action.windowId == window.id) window.copy(
                                 minimized = !window.minimized,
@@ -163,7 +170,10 @@ class DesktopViewModel(
 
             DesktopAction.OnToggleWindowsMenu -> {
                 _state.update {
-                    it.copy(showWindowsMenu = !it.showWindowsMenu)
+                    it.copy(
+                        activeWindow = null,
+                        showWindowsMenu = !it.showWindowsMenu
+                    )
                 }
             }
 
@@ -211,6 +221,7 @@ class DesktopViewModel(
             is DesktopAction.OnWindowClick -> {
                 _state.update {
                     it.copy(
+                        showRightClickMenu = false,
                         windows = it.windows.map { window ->
                             if (window.id == action.windowId) window.copy(selected = true)
                             else window.copy(selected = false)
@@ -260,6 +271,12 @@ class DesktopViewModel(
                             ) else window
                         }
                     )
+                }
+            }
+
+            is DesktopAction.OnWindowRightClick -> {
+                _state.update {
+                    it.copy(activeWindow = action.windowId)
                 }
             }
         }

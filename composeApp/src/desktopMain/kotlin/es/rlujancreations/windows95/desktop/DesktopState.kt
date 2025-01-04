@@ -13,5 +13,6 @@ data class DesktopState(
     val windows: List<WindowModel> = emptyList(),
     val showRightClickMenu: Boolean = false,
     val rightClickPosition: IntOffset = IntOffset.Zero,
-    val rightClickFile: FileModel? = null
+    val rightClickFile: FileModel? = null,
+    val activeWindow: Int? = null
 )

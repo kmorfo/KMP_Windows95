@@ -1,4 +1,4 @@
-package es.rlujancreations.windows95.components
+package es.rlujancreations.windows95.components.file
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -46,54 +46,26 @@ import org.jetbrains.compose.resources.painterResource
  * Created by Raúl L.C. on 27/12/24.
  */
 @Composable
-fun DraggableFile(
+fun NonDraggableFile(
     file: FileModel,
-    onMove: (Offset) -> Unit,
     onTapFile: (Int) -> Unit,
-    onRename: (String) -> Unit,
     onRightClick: (FileModel) -> Unit,
     onDoubleTapFile: (FileModel) -> Unit
 ) {
-    var offset by remember { mutableStateOf(file.position) }
-
-    var newName by remember { mutableStateOf(file.name) }
-    var isEditing by remember { mutableStateOf(false) }
-    var lastClickTime by remember { mutableStateOf(0L) }
-
-    val focusRequester = remember { FocusRequester() }
-
-    LaunchedEffect(file) {
-        offset = file.position
-    }
 
     Box(
-        modifier = Modifier.offset(file.position.x.dp, file.position.y.dp)
+        modifier = Modifier
             .width(83.dp)
             .onRightClick { onRightClick(file) }
-            .pointerInput(Unit) {
-                detectTransformGestures { _, pan, _, _ ->
-                    offset = offset.copy(x = offset.x + pan.x, y = offset.y + pan.y)
-                    onMove(offset)
-                }
-            }
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
                         onTapFile(file.id)
-
-                        val currentTime = System.currentTimeMillis()
-                        val timeSinceLastClick = currentTime - lastClickTime
-                        if (timeSinceLastClick in 300..800) {
-                            isEditing = true
-                        }
-                        lastClickTime = currentTime
                     },
                     onPress = { onTapFile(file.id) },
                     onDoubleTap = { onDoubleTapFile(file) }
-
                 )
             }
-
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -103,55 +75,31 @@ fun DraggableFile(
                 Image(
                     modifier = Modifier.fillMaxSize(),
                     painter = painterResource(getIcon(file.icon)),
-                    contentDescription = "folder"
+                    contentDescription = "file icon"
                 )
                 if (file.selected) {
                     Icon(
                         modifier = Modifier.fillMaxSize(),
                         painter = painterResource(getIcon(file.icon)),
-                        contentDescription = "folder",
+                        contentDescription = "file icon",
                         tint = windowsBlue.copy(alpha = 0.4f)
                     )
                 }
             }
-            if (isEditing) {
-                BasicTextField(
-                    value = newName,
-                    onValueChange = { newName = it },
-                    modifier = Modifier.focusRequester(focusRequester).background(White),
-                    singleLine = true,
-                    maxLines = 1
-                )
-
-                LaunchedEffect(Unit) {
-                    focusRequester.requestFocus()
-                }
-
-            } else {
-                Text(
-                    file.name,
-                    color = White,
-                    fontSize = 13.sp,
-                    maxLines = 2,
-                    style = TextStyle(lineHeight = 0.sp),
-                    modifier = Modifier.background(if (file.selected) windowsBlue else Color.Transparent),
-                    textAlign = TextAlign.Center,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-            Row {
-                Spacer(Modifier.weight(1f))
-            }
+            Text(
+                file.name,
+                color = Color.Black,
+                fontSize = 13.sp,
+                maxLines = 2,
+                style = TextStyle(lineHeight = 0.sp),
+                modifier = Modifier.background(if (file.selected) windowsBlue else Color.Transparent),
+                textAlign = TextAlign.Center,
+                overflow = TextOverflow.Ellipsis
+            )
         }
-        if (isEditing) {
-            Box(Modifier.fillMaxSize().pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = {
-                        isEditing = false
-                        onRename(newName)
-                    }
-                )
-            })
+        Row {
+            Spacer(Modifier.weight(1f))
         }
     }
+
 }

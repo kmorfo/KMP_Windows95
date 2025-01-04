@@ -1,6 +1,5 @@
 package es.rlujancreations.windows95.data.mappers
 
-import androidx.compose.ui.geometry.Offset
 import es.rlujancreations.windows95.data.database.entities.FileEntity
 import es.rlujancreations.windows95.domain.model.FileModel
 import kotlinx.datetime.Instant
@@ -10,7 +9,7 @@ import kotlinx.datetime.Instant
  */
 fun FileEntity.toFileModel(): FileModel {
     return FileModel(
-        id = id,
+        id = id ?: -1,
         path = path,
         type = type,
         name = name,
@@ -23,7 +22,7 @@ fun FileEntity.toFileModel(): FileModel {
 
 fun FileModel.toEntity(): FileEntity {
     return FileEntity(
-        id = id,
+        id = if (id == -1) null else id,
         path = path,
         type = type,
         name = name,

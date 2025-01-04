@@ -9,6 +9,8 @@ import androidx.compose.foundation.gestures.onDrag
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +22,7 @@ import androidx.compose.foundation.onClick
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,21 +36,34 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import es.rlujancreations.windows95.components.BackgroundComponent
+import es.rlujancreations.windows95.components.file.DraggableFile
+import es.rlujancreations.windows95.components.file.NonDraggableFile
+import es.rlujancreations.windows95.domain.model.FileModel
+import es.rlujancreations.windows95.extensions.onRightClick
 import es.rlujancreations.windows95.model.WindowModel
+import org.koin.compose.viewmodel.koinViewModel
 
 /**
  * Created by Raúl L.C. on 28/12/24.
  */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DraggableWindow(
+    windowViewModel: DraggableWindowViewModel = koinViewModel(),
     windowModel: WindowModel,
     onMove: (Offset) -> Unit,
     onClose: () -> Unit,
     onMinimize: () -> Unit,
     onExpand: () -> Unit,
     onClick: () -> Unit,
+    onRightClick: (WindowModel) -> Unit,
     hasStatusBar: Boolean = true
 ) {
+    LaunchedEffect(windowModel.id) {
+        windowViewModel.setWindow(windowModel)
+    }
+
+    val state by windowViewModel.state.collectAsState()
 
     var currentOffSet by remember { mutableStateOf(windowModel.position) }
     val density = LocalDensity.current
@@ -101,7 +117,10 @@ fun DraggableWindow(
                     windowModel.selected,
                     onMinimize = { onMinimize() },
                     onExpand = { onExpand() },
-                    onClose = { onClose() })
+                    onClose = {
+                        windowViewModel.stopWindow()
+                        onClose()
+                    })
                 Row {
                     Spacer(Modifier.width(10.dp))
                     Text("File")
@@ -118,11 +137,24 @@ fun DraggableWindow(
                     selected = true
                 ) {
                     Box(
-                        Modifier.fillMaxSize().background(Color.White),
+                        Modifier
+                            .fillMaxSize()
+                            .background(Color.White)
+                            .onRightClick { onRightClick(windowModel) },
                         contentAlignment = Alignment.BottomStart
                     ) {
+                        FlowRow(Modifier.fillMaxSize()) {
+                            state.files.forEach { file ->
+                                NonDraggableFile(
+                                    file = file,
+                                    onTapFile = { },
+                                    onDoubleTapFile = {},
+                                    onRightClick = {}
+                                )
+                            }
+                        }
                         if (hasStatusBar) {
-                            WindowStatusBar()
+                            WindowStatusBar(items = state.files.size)
                         }
                     }
                 }

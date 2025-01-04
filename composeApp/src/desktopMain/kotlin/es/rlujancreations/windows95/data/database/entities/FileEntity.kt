@@ -10,7 +10,7 @@ import es.rlujancreations.windows95.domain.model.FileType
  */
 @Entity
 data class FileEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int?,
     val path: String,
     val type: FileType = FileType.Folder,
     val name: String = "New folder",

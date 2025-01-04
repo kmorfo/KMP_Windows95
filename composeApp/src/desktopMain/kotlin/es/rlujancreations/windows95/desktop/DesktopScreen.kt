@@ -9,7 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.runtime.key
-import es.rlujancreations.windows95.components.DraggableFile
+import es.rlujancreations.windows95.components.file.DraggableFile
 import es.rlujancreations.windows95.components.RightClickMenu
 import es.rlujancreations.windows95.components.window.DraggableWindow
 import es.rlujancreations.windows95.components.windowsbarmenu.WindowsBar
@@ -75,7 +75,10 @@ fun Desktop(
                         },
                         onClick = {
                             desktopViewModel.onAction(DesktopAction.OnWindowClick(window.id))
-                        }
+                        },
+                        onRightClick = {
+                            desktopViewModel.onAction(DesktopAction.OnWindowRightClick(window.id))
+                        },
                     )
                 }
             }
