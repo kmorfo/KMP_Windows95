@@ -27,6 +27,7 @@ Una vez finalizado el curso añadí las siguientes caracteristicas y funcionalid
 - Ahora se pueden crear carpetas anidadas
 - Borrar carpetas
 - Otros detalles estéticos
+- Añadida pantalla azul BSOD
 ---
 ### 📹 Video
 <p align="center">
@@ -78,6 +79,10 @@ Una vez finalizado el curso añadí las siguientes caracteristicas y funcionalid
 |                          Click derecho sobre carpeta                           |
 |:------------------------------------------------------------------------------:|
 | <img src="githubimages/right_click_file.png" style="height: 50%; width:70%;"/> |
+
+|                   Clásica pantalla azul de error                   |
+|:------------------------------------------------------------------:|
+| <img src="githubimages/bsod.gif" style="height: 50%; width:70%;"/> |
 ---
 
 ## 🌍 Plataformas Soportadas

@@ -27,6 +27,7 @@ Once the course was completed I added the following Features and Functionalities
 - We can now create nested folders
 - Delete files
 - Other UI details
+- Added blue screen of dead BSOD
 ---
 ### 📹 Video
 <p align="center">
@@ -80,6 +81,9 @@ Once the course was completed I added the following Features and Functionalities
 |:------------------------------------------------------------------------------:|
 | <img src="githubimages/right_click_file.png" style="height: 50%; width:70%;"/> |
 
+|                    Classic blue screen of dead                     |
+|:------------------------------------------------------------------:|
+| <img src="githubimages/bsod.gif" style="height: 50%; width:70%;"/> |
 ---
 
 ## 🌍 Supported Platforms
