@@ -19,7 +19,7 @@ During the course I added and modified some details that I considered appropriat
 Once the course was completed I added the following Features and Functionalities
 
 ---
-# Caracteristicas añadidas
+# Added Features
 - Added dependency injection with **Koin**
 - Data persistence with **room**
 - Right menu over file
