@@ -14,7 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import es.rlujancreations.windows95.components.BackgroundComponent
@@ -49,24 +52,29 @@ fun WindowsMenu(showSubMenu: (Float?, WindowsMenuCategory?) -> Unit) {
                             .background(windowsBarTextBackground).padding(2.dp),
                         contentAlignment = Alignment.BottomStart
                     ) {
-                        Column {
-                            Text(
-                                "95",
-                                modifier = Modifier.rotateVertically(false),
-                                fontSize = 32.sp,
-                                fontWeight = FontWeight.Thin,
-                                fontFamily = androidx.compose.ui.text.font.FontFamily.Default,
-                                color = Color.White
-                            )
-                            Text(
-                                "Windows",
-                                modifier = Modifier.rotateVertically(false),
-                                fontSize = 32.sp,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = androidx.compose.ui.text.font.FontFamily.Default,
-                                color = backgroundComponent
-                            )
-                        }
+                        Text(
+                            modifier = Modifier.rotateVertically(false),
+                            fontSize = 32.sp,
+                            fontFamily = androidx.compose.ui.text.font.FontFamily.Default,
+                            text = buildAnnotatedString {
+                                withStyle(
+                                    style = SpanStyle(
+                                        fontWeight = FontWeight.Bold,
+                                        color = backgroundComponent,
+                                    )
+                                ) {
+                                    append("Windows")
+                                }
+                                withStyle(
+                                    style = SpanStyle(
+                                        fontWeight = FontWeight.Thin,
+                                        color = Color.White
+                                    )
+                                ) {
+                                    append("95")
+                                }
+                            }
+                        )
                     }
                 }
                 Column(Modifier.fillMaxHeight().width(200.dp)) {
